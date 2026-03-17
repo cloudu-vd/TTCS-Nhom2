@@ -1,20 +1,19 @@
 {
-  "name": "nha-tro-backend",
+  "name": "quanlinhatro",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
-    "body-parser": "^2.2.2",
     "cors": "^2.8.6",
     "express": "^5.2.1",
-    "mysql2": "^3.19.0",
-    "nodemon": "^3.1.14"
+    "mysql2": "^3.18.2"
   }
 }
