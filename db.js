@@ -1,18 +1,12 @@
-const mysql = require("mysql2");
+const mysql = require("mysql2/promise");
 
-const db = mysql.createConnection({
+const db = mysql.createPool({
     host: "localhost",
     user: "root",
     password: "123456",
     database: "nha_tro_management"
 });
 
-db.connect((err) => {
-    if (err) {
-        console.log("Kết nối database lỗi");
-    } else {
-        console.log("Kết nối MySQL thành công");
-    }
-});
+
 
 module.exports = db;

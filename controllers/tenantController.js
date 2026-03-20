@@ -1,80 +1,61 @@
 const db = require("../db");
 
-exports.getAllTenants = (req, res) => {
-
-    db.query("SELECT * FROM tenants", (err, result) => {
-
-        if (err) {
-            res.status(500).json(err);
-        } else {
-            res.json(result);
-        }
-
-    });
-
+// GET ALL
+exports.getAllTenants = async (req, res) => {
+    try {
+        const [rows] = await db.query("SELECT * FROM tenants");
+        res.json(rows);
+    } catch (err) {
+        res.status(500).json(err);
+    }
 };
 
-exports.createTenant = (req, res) => {
-
+// CREATE
+exports.createTenant = async (req, res) => {
     const { full_name, phone, cccd, address } = req.body;
 
-    const sql = `
-        INSERT INTO tenants (full_name, phone, cccd, address)
-        VALUES (?, ?, ?, ?)
-    `;
+    try {
+        const sql = `
+            INSERT INTO tenants (full_name, phone, cccd, address)
+            VALUES (?, ?, ?, ?)
+        `;
 
-    db.query(sql, [full_name, phone, cccd, address], (err, result) => {
+        await db.query(sql, [full_name, phone, cccd, address]);
 
-        if (err) {
-            res.status(500).json(err);
-        } else {
-            res.json({ message: "Thêm khách thành công" });
-        }
-
-    });
-
+        res.json({ message: "Thêm khách thành công" });
+    } catch (err) {
+        res.status(500).json(err);
+    }
 };
 
-exports.updateTenant = (req, res) => {
-
+// UPDATE
+exports.updateTenant = async (req, res) => {
     const id = req.params.id;
-
     const { full_name, phone, cccd, address } = req.body;
 
-    const sql = `
-        UPDATE tenants
-        SET full_name=?, phone=?, cccd=?, address=?
-        WHERE id=?
-    `;
+    try {
+        const sql = `
+            UPDATE tenants 
+            SET full_name=?, phone=?, cccd=?, address=? 
+            WHERE id=?
+        `;
 
-    db.query(sql, [full_name, phone, cccd, address, id], (err, result) => {
+        await db.query(sql, [full_name, phone, cccd, address, id]);
 
-        if (err) {
-            res.status(500).json(err);
-        } else {
-            res.json({ message: "Cập nhật thành công" });
-        }
-
-    });
-
+        res.json({ message: "Cập nhật thành công" });
+    } catch (err) {
+        res.status(500).json(err);
+    }
 };
 
-exports.deleteTenant = (req, res) => {
-
+// DELETE
+exports.deleteTenant = async (req, res) => {
     const id = req.params.id;
 
-    db.query(
-        "DELETE FROM tenants WHERE id=?",
-        [id],
-        (err, result) => {
-
-            if (err) {
-                res.status(500).json(err);
-            } else {
-                res.json({ message: "Xóa thành công" });
-            }
-
-        }
-    );
-
+    try {
+        await db.query("DELETE FROM tenants WHERE id=?", [id]);
+        res.json({ message: "Xóa thành công" });
+    } catch (err) {
+        res.status(500).json(err);
+    }
 };
